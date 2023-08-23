@@ -101,7 +101,7 @@ static void Decrypt_Page(bool SkipDecryption, bool datamedia) {
 		}
 	} else if (datamedia) {
 		PartitionManager.Update_System_Details();
-		if (tw_get_default_metadata(DataManager::GetSettingsStoragePath().c_str()) != 0) {
+		if (tw_get_default_metadata(DataManager::GetCurrentStoragePath().c_str()) != 0) {
 			LOGINFO("Failed to get default contexts and file mode for storage files.\n");
 		} else {
 			LOGINFO("Got default contexts and file mode for storage files.\n");
@@ -113,22 +113,6 @@ static void process_fastbootd_mode() {
 		LOGINFO("starting fastboot\n");
 
 #ifdef TW_LOAD_VENDOR_MODULES
-		printf("=> Linking mtab\n");
-		symlink("/proc/mounts", "/etc/mtab");
-		std::string fstab_filename = "/etc/twrp.fstab";
-		if (!TWFunc::Path_Exists(fstab_filename)) {
-			fstab_filename = "/etc/recovery.fstab";
-		}
-		printf("=> Processing %s\n", fstab_filename.c_str());
-		if (!PartitionManager.Process_Fstab(fstab_filename, 1, false)) {
-			LOGERR("Failing out of recovery due to problem with fstab.\n");
-			return;
-		}
-
-		TWPartition* ven = PartitionManager.Find_Partition_By_Path("/vendor");
-		PartitionManager.Setup_Super_Devices();
-		PartitionManager.Prepare_Super_Volume(ven);
-		KernelModuleLoader::Load_Vendor_Modules();
 		if (android::base::GetBoolProperty("ro.virtual_ab.enabled", false)) {
 			PartitionManager.Unmap_Super_Devices();
 		}
@@ -146,10 +130,6 @@ static void process_fastbootd_mode() {
 static void process_recovery_mode(twrpAdbBuFifo* adb_bu_fifo, bool skip_decryption) {
 	char crash_prop_val[PROPERTY_VALUE_MAX];
 	int crash_counter;
-	std::string cmdline;
-	if (TWFunc::read_file("/proc/cmdline", cmdline) != 0) {
-		LOGINFO("Unable to read cmdline for fastboot mode\n");
-	}
 
 	property_get("twrp.crash_counter", crash_prop_val, "-1");
 	crash_counter = atoi(crash_prop_val) + 1;
@@ -163,32 +143,11 @@ static void process_recovery_mode(twrpAdbBuFifo* adb_bu_fifo, bool skip_decrypti
 		printf("twrp.crash_counter=%d\n", crash_counter);
 	}
 
-	printf("=> Linking mtab\n");
-	symlink("/proc/mounts", "/etc/mtab");
-	std::string fstab_filename = "/etc/twrp.fstab";
-	if (!TWFunc::Path_Exists(fstab_filename)) {
-		fstab_filename = "/etc/recovery.fstab";
-	}
-	printf("=> Processing %s\n", fstab_filename.c_str());
-	if (!PartitionManager.Process_Fstab(fstab_filename, 1, true)) {
-		LOGERR("Failing out of recovery due to problem with fstab.\n");
-		return;
-	}
-	Express::updateSHRPBasePath();
 #ifdef SHRP_EXPRESS
 	Express::init();
 #endif
 	//SHRP_initial_funcs
 	SHRP::INIT();
-
-#ifdef TW_LOAD_VENDOR_MODULES
-	bool fastboot_mode = cmdline.find("twrpfastboot=1") != std::string::npos;
-	if (fastboot_mode)
-		KernelModuleLoader::Load_Vendor_Modules();
-	else
-		KernelModuleLoader::Load_Vendor_Modules();
-#endif
-
 // We are doing this here to allow super partition to be set up prior to overriding properties
 #if defined(TW_INCLUDE_LIBRESETPROP) && defined(TW_OVERRIDE_SYSTEM_PROPS)
 	stringstream override_props(EXPAND(TW_OVERRIDE_SYSTEM_PROPS));
@@ -438,18 +397,42 @@ int main(int argc, char **argv) {
 #endif
 
 	time_t StartupTime = time(NULL);
-	printf("Starting TWRP %s-%s on %s (pid %d)\n", TW_VERSION_STR, TW_GIT_REVISION, ctime(&StartupTime), getpid());
+	printf("Starting SHRP 3.2 - %s-%s on %s (pid %d)\n", TW_VERSION_STR, TW_GIT_REVISION, ctime(&StartupTime), getpid());
 
 	// Load default values to set DataManager constants and handle ifdefs
 	DataManager::SetDefaultValues();
 	printf("Starting the UI...\n");
 	gui_init();
+	
+	startupArgs startup;
+	startup.parse(&argc, &argv);
+	printf("=> Linking mtab\n");
+	symlink("/proc/mounts", "/etc/mtab");
+	std::string fstab_filename = "/etc/twrp.fstab";
+	if (!TWFunc::Path_Exists(fstab_filename)) {
+		fstab_filename = "/etc/recovery.fstab";
+	}
+	printf("=> Processing %s\n", fstab_filename.c_str());
+	if (!PartitionManager.Process_Fstab(fstab_filename, 1, !startup.Get_Fastboot_Mode())) {
+		LOGERR("Failing out of recovery due to problem with fstab.\n");
+		return -1;
+	}
+
+#ifdef TW_LOAD_VENDOR_MODULES
+	if (startup.Get_Fastboot_Mode()) {
+		TWPartition* ven_dlkm = PartitionManager.Find_Partition_By_Path("/vendor_dlkm");
+		android::base::SetProperty("ro.twrp.fastbootd", "1");
+		PartitionManager.Prepare_Super_Volume(PartitionManager.Find_Partition_By_Path("/vendor"));
+		if(ven_dlkm) {
+			PartitionManager.Prepare_Super_Volume(ven_dlkm);
+		}
+	}
+	KernelModuleLoader::Load_Vendor_Modules();
+#endif
 
 	// Load up all the resources
 	gui_loadResources();
 
-	startupArgs startup;
-	startup.parse(&argc, &argv);
 	twrpAdbBuFifo *adb_bu_fifo = new twrpAdbBuFifo();
 	TWFunc::Clear_Bootloader_Message();
 

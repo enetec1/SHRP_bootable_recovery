@@ -607,13 +607,6 @@ void DataManager::SetDefaultValues()
 	mConst.SetValue(TW_ALLOW_PARTITION_SDCARD, "1");
 #endif
 
-#ifdef TW_INCLUDE_DUMLOCK
-	printf("TW_INCLUDE_DUMLOCK := true\n");
-	mConst.SetValue(TW_SHOW_DUMLOCK, "1");
-#else
-	mConst.SetValue(TW_SHOW_DUMLOCK, "0");
-#endif
-
 	mData.SetValue(TW_RECOVERY_FOLDER_VAR, TW_DEFAULT_RECOVERY_FOLDER);
 
 	str = GetCurrentStoragePath();
@@ -788,6 +781,13 @@ initSHRPVars(&mConst, &mData, &mPersist);
 	mData.SetValue(TW_ZIP_QUEUE_COUNT, "0");
 	mData.SetValue(TW_FILENAME, "/sdcard");
 	mData.SetValue(TW_SIMULATE_ACTIONS, "0");
+	
+#ifdef TW_SIMULATE_DECRYPT
+	mData.SetValue(TW_SIMULATE_DECRYPT, "1");
+#else
+	mData.SetValue(TW_SIMULATE_DECRYPT, "0");
+#endif
+
 	mData.SetValue(TW_SIMULATE_FAIL, "0");
 	mData.SetValue(TW_IS_ENCRYPTED, "0");
 	mData.SetValue(TW_IS_DECRYPTED, "0");

@@ -224,6 +224,8 @@ ifeq ($(TW_INCLUDE_CRYPTO), true)
         RECOVERY_LIBRARY_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.vibrator@1.2.so
         RECOVERY_LIBRARY_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.vibrator-V1-ndk_platform.so
         RECOVERY_LIBRARY_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.vibrator-V1-cpp.so
+        RECOVERY_LIBRARY_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.vibrator-V2-cpp.so
+        RECOVERY_LIBRARY_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.vibrator-V2-ndk_platform.so
         RECOVERY_LIBRARY_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/libstatslog.so
         RECOVERY_LIBRARY_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/libsoft_attestation_cert.so
         RECOVERY_LIBRARY_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so
@@ -475,80 +477,6 @@ ifneq ($(TW_EXCLUDE_ENCRYPTED_BACKUPS),)
     LOCAL_MODULE_CLASS := EXECUTABLES
     LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/license/openaes
     LOCAL_SRC_FILES := ../openaes/LICENSE
-    include $(BUILD_PREBUILT)
-endif
-
-ifeq ($(TW_INCLUDE_DUMLOCK), true)
-    #htcdumlock for /system for dumlock
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := htcdumlocksys
-    LOCAL_MODULE_TAGS := optional
-    LOCAL_MODULE_CLASS := EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
-    include $(BUILD_PREBUILT)
-
-    #flash_image for /system for dumlock
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := flash_imagesys
-    LOCAL_MODULE_TAGS := optional
-    LOCAL_MODULE_CLASS := EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
-    include $(BUILD_PREBUILT)
-
-    #dump_image for /system for dumlock
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := dump_imagesys
-    LOCAL_MODULE_TAGS := optional
-    LOCAL_MODULE_CLASS := EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
-    include $(BUILD_PREBUILT)
-
-    #libbmlutils for /system for dumlock
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := libbmlutils.so
-    LOCAL_MODULE_TAGS := optional
-    LOCAL_MODULE_CLASS := EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
-    include $(BUILD_PREBUILT)
-
-    #libflashutils for /system for dumlock
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := libflashutils.so
-    LOCAL_MODULE_TAGS := optional
-    LOCAL_MODULE_CLASS := EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
-    include $(BUILD_PREBUILT)
-
-    #libmmcutils for /system for dumlock
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := libmmcutils.so
-    LOCAL_MODULE_TAGS := optional
-    LOCAL_MODULE_CLASS := EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
-    include $(BUILD_PREBUILT)
-
-    #libmtdutils for /system for dumlock
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := libmtdutils.so
-    LOCAL_MODULE_TAGS := optional
-    LOCAL_MODULE_CLASS := EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
-    include $(BUILD_PREBUILT)
-
-    #HTCDumlock.apk
-    include $(CLEAR_VARS)
-    LOCAL_MODULE := HTCDumlock.apk
-    LOCAL_MODULE_TAGS := optional
-    LOCAL_MODULE_CLASS := EXECUTABLES
-    LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-    LOCAL_SRC_FILES := $(LOCAL_MODULE)
     include $(BUILD_PREBUILT)
 endif
 

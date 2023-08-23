@@ -49,6 +49,10 @@ using namespace rapidxml;
 #define TW_H_OFFSET 0
 #endif
 
+#ifndef TW_FRAMERATE
+#define TW_FRAMERATE 30
+#endif
+
 class RenderObject
 {
 public:
@@ -347,9 +351,6 @@ protected:
 	int fixpermissions(std::string arg);
 	int dd(std::string arg);
 	int partitionsd(std::string arg);
-	int installhtcdumlock(std::string arg);
-	int htcdumlockrestoreboot(std::string arg);
-	int htcdumlockreflashrecovery(std::string arg);
 	int cmd(std::string arg);
 	int terminalcommand(std::string arg);
 	int killterminal(std::string arg);
@@ -413,6 +414,7 @@ protected:
 	int flashBridge(std::string arg);
 
 	int simulate;
+	int simdecry;
 };
 
 class GUIButton : public GUIObject, public RenderObject, public ActionObject

@@ -34,6 +34,7 @@
 #include <dirent.h>
 #include <private/android_filesystem_config.h>
 #include <android-base/properties.h>
+#include <fstream>
 
 #include <string>
 #include <sstream>
@@ -230,9 +231,6 @@ GUIAction::GUIAction(xml_node<>* node)
 		ADD_ACTION(fixpermissions);
 		ADD_ACTION(dd);
 		ADD_ACTION(partitionsd);
-		ADD_ACTION(installhtcdumlock);
-		ADD_ACTION(htcdumlockrestoreboot);
-		ADD_ACTION(htcdumlockreflashrecovery);
 		ADD_ACTION(cmd);
 		ADD_ACTION(terminalcommand);
 		ADD_ACTION(reinjecttwrp);
@@ -518,6 +516,7 @@ int GUIAction::doActions()
 int GUIAction::doAction(Action action)
 {
 	DataManager::GetValue(TW_SIMULATE_ACTIONS, simulate);
+	DataManager::GetValue(TW_SIMULATE_DECRYPT, simdecry);
 
 	std::string function = gui_parse_text(action.mFunction);
 	std::string arg = gui_parse_text(action.mArg);
@@ -1436,39 +1435,6 @@ int GUIAction::partitionsd(std::string arg __unused)
 
 }
 
-int GUIAction::installhtcdumlock(std::string arg __unused)
-{
-	operation_start("Install HTC Dumlock");
-	if (simulate) {
-		simulate_progress_bar();
-	}
-
-	operation_end(0);
-	return 0;
-}
-
-int GUIAction::htcdumlockrestoreboot(std::string arg __unused)
-{
-	operation_start("HTC Dumlock Restore Boot");
-	if (simulate) {
-		simulate_progress_bar();
-	}
-
-	operation_end(0);
-	return 0;
-}
-
-int GUIAction::htcdumlockreflashrecovery(std::string arg __unused)
-{
-	operation_start("HTC Dumlock Reflash Recovery");
-	if (simulate) {
-		simulate_progress_bar();
-	}
-
-	operation_end(0);
-	return 0;
-}
-
 int GUIAction::cmd(std::string arg)
 {
 	int op_status = 0;
@@ -1605,7 +1571,7 @@ int GUIAction::decrypt(std::string arg __unused)
 	int op_status = 0;
 
 	operation_start("Decrypt");
-	if (simulate) {
+	if (simdecry) {
 		simulate_progress_bar();
 	} else {
 		string Password;
@@ -1641,7 +1607,7 @@ int GUIAction::decrypt(std::string arg __unused)
 			// Check for a custom theme and load it if exists
 			DataManager::GetValue(TW_HAS_DATA_MEDIA, has_datamedia);
 			if (has_datamedia != 0) {
-				if (tw_get_default_metadata(DataManager::GetSettingsStoragePath().c_str()) != 0) {
+				if (tw_get_default_metadata(DataManager::GetCurrentStoragePath().c_str()) != 0) {
 					LOGINFO("Failed to get default contexts and file mode for storage files.\n");
 				} else {
 					LOGINFO("Got default contexts and file mode for storage files.\n");
@@ -2417,18 +2383,6 @@ int GUIAction::changeterminal(std::string arg) {
 		gui_changePage("terminalcommand");
 	return 0;
 }
-#ifndef TW_EXCLUDE_NANO
-int GUIAction::editfile(std::string arg) {
-	if (term != NULL) {
-		for (uint8_t iter = 0; iter < arg.size(); iter++)
-			term->NotifyCharInput(arg.at(iter));
-		term->NotifyCharInput(13);
-	}
-	else
-		LOGINFO("Unable to switch to Terminal\n");
-	return 0;
-}
-#endif
 
 int GUIAction::unmapsuperdevices(std::string arg __unused) {
 	int op_status = 1;
@@ -2445,6 +2399,19 @@ int GUIAction::unmapsuperdevices(std::string arg __unused) {
 	operation_end(op_status);
 	return 0;
 }
+
+#ifndef TW_EXCLUDE_NANO
+int GUIAction::editfile(std::string arg) {
+	if (term != NULL) {
+		for (uint8_t iter = 0; iter < arg.size(); iter++)
+			term->NotifyCharInput(arg.at(iter));
+		term->NotifyCharInput(13);
+	}
+	else
+		LOGINFO("Unable to switch to Terminal\n");
+	return 0;
+}
+#endif
 
 int GUIAction::applycustomtwrpfolder(string arg __unused)
 {
@@ -2473,6 +2440,10 @@ int GUIAction::applycustomtwrpfolder(string arg __unused)
 	if (ret) {
 		DataManager::SetValue(TW_RECOVERY_FOLDER_VAR, '/' + arg);
 		DataManager::SetValue(TW_BACKUPS_FOLDER_VAR, newBackupFolder);
+		//Creates an empty file that marks which folder is TWRP with the renamed new name, after reboot.
+		string path= newFolder + "/.twrpcf";
+		std::ofstream twrpcf(path);
+		twrpcf.close();
 	}
 	operation_end((int)!ret);
 	return 0;

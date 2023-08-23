@@ -36,6 +36,8 @@
 #define REPACK_ORIG_DIR "/tmp/repackorig/"
 #define REPACK_NEW_DIR "/tmp/repacknew/"
 
+#define NOT_AVAILABLE -2
+
 using namespace std;
 
 // BasePartition is used for overriding so we can run custom, device
@@ -286,6 +288,7 @@ private:
 	string Key_Directory;                                                     // Metadata key directory needed for mounting FBE encrypted data partitions using metadata encryption
 	string Original_Path;
 	bool Use_Original_Path;
+	bool Needs_Fs_Compress;
 
 	struct partition_fs_flags_struct {                                        // This struct is used to store mount flags and options for different file systems for the same partition
 		string File_System;

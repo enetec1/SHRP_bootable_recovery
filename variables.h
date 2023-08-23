@@ -17,7 +17,7 @@
 #ifndef _VARIABLES_HEADER_
 #define _VARIABLES_HEADER_
 
-#define TW_MAIN_VERSION_STR       "3.7.0_12"
+#define TW_MAIN_VERSION_STR       "3.7.0_12.1_mk3"
 #define TW_VERSION_STR TW_MAIN_VERSION_STR TW_DEVICE_VERSION
 #define TW_SETTINGS_FILE            ".twrps"
 #define TW_RECOVERY_NAME            "TWRP"
@@ -122,6 +122,7 @@
 #define TW_NO_BATTERY_PERCENT       "tw_no_battery_percent"
 #define TW_POWER_BUTTON             "tw_power_button"
 #define TW_SIMULATE_ACTIONS         "tw_simulate_actions"
+#define TW_SIMULATE_DECRYPT         "tw_simulate_decrypt"
 #define TW_SIMULATE_FAIL            "tw_simulate_fail"
 #define TW_DONT_UNMOUNT_SYSTEM      "tw_dont_unmount_system"
 // #define TW_ALWAYS_RMRF              "tw_always_rmrf"
@@ -182,7 +183,7 @@
 //#define MAX_ARCHIVE_SIZE 52428800LLU // 50MB split for testing
 
 #ifndef CUSTOM_LUN_FILE
-#define CUSTOM_LUN_FILE "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
+#define CUSTOM_LUN_FILE "/config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file"
 #endif
 
 #define SCRIPT_FILE_TMP "/tmp/openrecoveryscript"

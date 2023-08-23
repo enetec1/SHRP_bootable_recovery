@@ -111,6 +111,7 @@ LOCAL_C_INCLUDES += \
     system/core/fs_mgr/include/ \
     system/core/fs_mgr/libdm/include/ \
     system/core/fs_mgr/liblp/include/ \
+    system/core/fs_mgr/ \
     system/gsid/include/ \
     system/core/init/ \
     system/extras/ext4_utils/include \
@@ -154,12 +155,17 @@ LOCAL_C_INCLUDES += \
     $(LOCAL_PATH)/twinstall/include
 
 LOCAL_STATIC_LIBRARIES += libguitwrp libvold
-LOCAL_SHARED_LIBRARIES += libz libc libcutils libstdc++ libtar libblkid libminuitwrp libmtdutils libtwadbbu
-LOCAL_SHARED_LIBRARIES += libbootloader_message libcrecovery libtwrpdigest libc++ libaosprecovery libcrypto libbase
+LOCAL_SHARED_LIBRARIES += libz libc libcutils libstdc++ libtar libblkid libminuitwrp libmtdutils libtwadbbu 
+LOCAL_SHARED_LIBRARIES += libbootloader_message libcrecovery libtwrpdigest libc++ libaosprecovery libcrypto libbase 
 LOCAL_SHARED_LIBRARIES += libziparchive libselinux libdl_android.bootstrap
 
 ifneq ($(wildcard system/core/libsparse/Android.mk),)
 LOCAL_SHARED_LIBRARIES += libsparse
+endif
+
+### Simulate decryption support ###
+ifeq ($(TW_SIMULATE_DECRYPT),true)
+    LOCAL_CFLAGS += -DTW_SIMULATE_DECRYPT=1
 endif
 
 ifeq ($(TW_OEM_BUILD),true)
@@ -211,6 +217,10 @@ ifeq ($(TW_PREPARE_DATA_MEDIA_EARLY),true)
     LOCAL_CFLAGS += -DTW_PREPARE_DATA_MEDIA_EARLY
 endif
 
+ifeq ($(TW_ENABLE_FS_COMPRESSION),true)
+    LOCAL_CFLAGS += -DTW_ENABLE_FS_COMPRESSION
+endif
+
 LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/system/bin
 
 ifeq ($(TARGET_RECOVERY_TWRP_LIB),)
@@ -254,9 +264,6 @@ ifeq ($(BOARD_HAS_NO_REAL_SDCARD), true)
 endif
 ifneq ($(RECOVERY_SDCARD_ON_DATA),)
 	LOCAL_CFLAGS += -DRECOVERY_SDCARD_ON_DATA
-endif
-ifneq ($(TW_INCLUDE_DUMLOCK),)
-	LOCAL_CFLAGS += -DTW_INCLUDE_DUMLOCK
 endif
 ifneq ($(TW_INTERNAL_STORAGE_PATH),)
 	LOCAL_CFLAGS += -DTW_INTERNAL_STORAGE_PATH=$(TW_INTERNAL_STORAGE_PATH)
@@ -372,6 +379,7 @@ ifeq ($(TW_INCLUDE_CRYPTO), true)
         endif
         LOCAL_SHARED_LIBRARIES += libcryptfs_hw
     endif
+    TW_INCLUDE_LIBRESETPROP := true
 endif
 WITH_CRYPTO_UTILS := \
     $(if $(wildcard system/core/libcrypto_utils/android_pubkey.c),true)
@@ -748,6 +756,11 @@ TWRP_REQUIRED_MODULES += \
     resetprop
 endif
 
+ifeq ($(TW_INCLUDE_LIBRESETPROP), true)
+TWRP_REQUIRED_MODULES += \
+    libresetprop
+endif
+
 TWRP_REQUIRED_MODULES += \
     hwservicemanager \
     hwservicemanager.rc \
@@ -791,11 +804,6 @@ ifeq ($(BOARD_HAS_NO_REAL_SDCARD),)
 endif
 ifneq ($(TW_EXCLUDE_ENCRYPTED_BACKUPS),)
     TWRP_REQUIRED_MODULES += openaes openaes_license
-endif
-ifeq ($(TW_INCLUDE_DUMLOCK), true)
-    TWRP_REQUIRED_MODULES += \
-        htcdumlock htcdumlocksys flash_imagesys dump_imagesys libbmlutils.so \
-        libflashutils.so libmmcutils.so libmtdutils.so HTCDumlock.apk
 endif
 ifeq ($(TW_INCLUDE_FB2PNG), true)
     TWRP_REQUIRED_MODULES += fb2png
@@ -868,9 +876,9 @@ include $(BUILD_PHONY_PACKAGE)
 # ===============================
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := \
-    recovery-persist.cpp
+    recovery-persist.cpp 
 LOCAL_MODULE := recovery-persist
-LOCAL_SHARED_LIBRARIES := liblog libbase
+LOCAL_SHARED_LIBRARIES := liblog libbase 
 LOCAL_STATIC_LIBRARIES := libotautil librecovery_utils
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/otautil/include
 LOCAL_C_INCLUDES += system/core/libstats/include
@@ -938,7 +946,6 @@ include $(commands_TWRP_local_path)/mtp/ffs/Android.mk \
 
 #includes for TWRP
 include $(commands_TWRP_local_path)/injecttwrp/Android.mk \
-    $(commands_TWRP_local_path)/htcdumlock/Android.mk \
     $(commands_TWRP_local_path)/mmcutils/Android.mk \
     $(commands_TWRP_local_path)/bmlutils/Android.mk \
     $(commands_TWRP_local_path)/prebuilt/Android.mk \

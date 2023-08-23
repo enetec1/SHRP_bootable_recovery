@@ -44,10 +44,12 @@ void SHRP::printRecDetails(){
 	DataManager::GetValue("device_code_name",tmp);
 	tmp="|Device - "+tmp;
 	gui_msg(Msg(tmp.c_str(),0));
+/*
 #ifdef SHRP_BUILD_DATE
 	tmp="|Build - "+DataManager::GetStrValue("buildNo");
 	gui_msg(Msg(tmp.c_str(),0));
 #endif
+*/
 }
 
 

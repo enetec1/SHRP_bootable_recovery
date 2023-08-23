@@ -25,9 +25,9 @@ void initSHRPVars(InfoManager* mConst, InfoManager* mData, InfoManager* mPersist
     //SHRP constant variables
 	mConst->SetValue("shrp_ver", "3.2");
 	mConst->SetValue("buildNo", EXPAND(SHRP_BUILD_DATE));
-	mConst->SetValue("shrp_ver_status", "Stable");
+	mConst->SetValue("shrp_ver_status", "Beta");
 	mConst->SetValue("c_magisk_path", "/_magisk/");
-	mConst->SetValue("c_magisk_stock_var", "25.2");
+	mConst->SetValue("c_magisk_stock_var", "26.1");
 
 	//SHRP SemiConstant variables
 	mData->SetValue("shrpBasePath", "/system");

@@ -28,12 +28,27 @@
 				<data variable="dummy"/>
 			</checkbox>
 
-
 			<checkbox>
 				<condition var1="shrp_ver_status" op="=" var2="Beta"/>
 				<placement x="%c_hawk_base_column%" y="%rPos17%"/>
+				<image checked="unofficialBuild" unchecked="unofficialBuild"/>
+				<text>Beta Release</text>
+				<data variable="dummy"/>
+			</checkbox>
+
+			<checkbox>
+				<condition var1="shrp_ver_status" op="=" var2="Canary"/>
+				<placement x="%c_hawk_base_column%" y="%rPos17%"/>
 				<image checked="betaBuild" unchecked="betaBuild"/>
-				<text>{@betaBuild=Beta Release}</text>
+				<text>Canary Release</text>
+				<data variable="dummy"/>
+			</checkbox>
+
+			<checkbox>
+				<condition var1="shrp_ver_status" op="=" var2="Untested"/>
+				<placement x="%c_hawk_base_column%" y="%rPos17%"/>
+				<image checked="betaBuild" unchecked="betaBuild"/>
+				<text>Untested Release</text>
 				<data variable="dummy"/>
 			</checkbox>
 
@@ -49,7 +64,7 @@
 
 			<text style="subOptionTitle">
 				<placement x="%c_hawk_base_column%" y="-15" yref="%rPos48%" yop="+"/>
-				<text>{@c_twrp_ver=TWRP Version}</text>
+				<text>SHRP engine</text>
 			</text>
 			<text style="simpleText">
 				<placement x="%c_hawk_base_column%" y="-15" yref="%rPos53%" yop="+"/>
@@ -70,6 +85,10 @@
 				</listitem>
 				<listitem name="%device_maintainer_name%">
 					<icon resource="c_usersRadioOn"/>
+					<data variable="dummy"/>
+				</listitem>
+				<listitem name="Made in Italy">
+					<icon resource="globeIco"/>
 					<data variable="dummy"/>
 				</listitem>
 				<listitem name="{@c_moreInfo=More Info}">
@@ -144,6 +163,18 @@
 			<listbox style="scrolllist">
 				<placement x="%c_hawk_base_column%" y="%rPos45%" w="%file_selector_default_w%" h="750"/>
 				<icon selected="shrpCredits" unselected="shrpCredits"/>
+				<listitem name="TeamWin (synced @ 20 Aug 2023)">
+					<data variable="dummy"/>
+				</listitem>
+				<listitem name="SGCMarkus">
+					<data variable="dummy"/>
+				</listitem>
+				<listitem name="ROM_gamer987">
+					<data variable="dummy"/>
+				</listitem>
+				<listitem name="nakamotoshigetoki">
+					<data variable="dummy"/>
+				</listitem>
 				<listitem name="epicX">
 					<data variable="dummy"/>
 				</listitem>
@@ -157,9 +188,6 @@
 					<data variable="dummy"/>
 				</listitem>
 				<listitem name="Corsicanu">
-					<data variable="dummy"/>
-				</listitem>
-				<listitem name="Teamwin">
 					<data variable="dummy"/>
 				</listitem>
 				<listitem name="osmOsis">
@@ -178,10 +206,6 @@
 					<data variable="dummy"/>
 				</listitem>
 				<listitem name="TechyMinati">
-					<data variable="dummy"/>
-				</listitem>
-				<listitem name="{@Tcredit=None}">
-					<icon resource="globeIco"/>
 					<data variable="dummy"/>
 				</listitem>
 			</listbox>

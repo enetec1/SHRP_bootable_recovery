@@ -166,6 +166,7 @@ enum TW_FSTAB_FLAGS {
 	TWFLAG_WRAPPEDKEY,
 	TWFLAG_ADOPTED_MOUNT_DELAY,
 	TWFLAG_DM_USE_ORIGINAL_PATH,
+	TWFLAG_FS_COMPRESS,
 	TWFLAG_LOGICAL,
 };
 
@@ -215,6 +216,7 @@ const struct flag_list tw_flags[] = {
 	{ "wrappedkey",             TWFLAG_WRAPPEDKEY },
 	{ "adopted_mount_delay=",   TWFLAG_ADOPTED_MOUNT_DELAY },
 	{ "dm_use_original_path",   TWFLAG_DM_USE_ORIGINAL_PATH },
+	{ "fscompress",             TWFLAG_FS_COMPRESS },
 	{ "logical",                TWFLAG_LOGICAL },
 	{ 0,                        0 },
 };
@@ -283,6 +285,7 @@ TWPartition::TWPartition() {
 	Adopted_Mount_Delay = 0;
 	Original_Path = "";
 	Use_Original_Path = false;
+	Needs_Fs_Compress = false;
 }
 
 TWPartition::~TWPartition(void) {
@@ -537,6 +540,18 @@ bool TWPartition::Process_Fstab_Line(const char *fstab_line, bool Display_Error,
 			Display_Name = "Vendor";
 			Backup_Display_Name = Display_Name;
 			Storage_Name = Display_Name;
+		} else if (Mount_Point == "/metadata") {
+			Display_Name = "Metadata";
+			Backup_Display_Name = Display_Name;
+			Storage_Name = Display_Name;
+		} else if (Mount_Point == "/odm_dlkm") {
+			Display_Name = "ODM DLKM";
+			Backup_Display_Name = Display_Name;
+			Storage_Name = Display_Name;
+		} else if (Mount_Point == "/vendor_dlkm") {
+			Display_Name = "Vendor DLKM";
+			Backup_Display_Name = Display_Name;
+			Storage_Name = Display_Name;
 		}
 #ifdef TW_EXTERNAL_STORAGE_PATH
 		if (Mount_Point == EXPAND(TW_EXTERNAL_STORAGE_PATH)) {
@@ -570,6 +585,11 @@ bool TWPartition::Process_Fstab_Line(const char *fstab_line, bool Display_Error,
 		Setup_Image();
 		if (Mount_Point == "/boot") {
 			Display_Name = "Boot";
+			Backup_Display_Name = Display_Name;
+			Can_Be_Backed_Up = true;
+			Can_Flash_Img = true;
+		} else if (Mount_Point == "/init_boot") {
+			Display_Name = "Init Boot";
 			Backup_Display_Name = Display_Name;
 			Can_Be_Backed_Up = true;
 			Can_Flash_Img = true;
@@ -1052,6 +1072,14 @@ void TWPartition::Apply_TW_Flag(const unsigned flag, const char* str, const bool
 		case TWFLAG_LOGICAL:
 			Is_Super = true;
 			break;
+		case TWFLAG_FS_COMPRESS:
+			#ifdef TW_ENABLE_FS_COMPRESSION
+				Needs_Fs_Compress = true;
+				LOGINFO("Enabling 'fs compression'\n");
+			#else
+				LOGINFO("Ignoring the 'fscompress' fstab flag\n");
+			#endif
+			break;
 		default:
 			// Should not get here
 			LOGINFO("Flag identified for processing, but later unmatched: %i\n", flag);
@@ -1252,16 +1280,15 @@ void TWPartition::Setup_Data_Media() {
 		DataManager::SetValue("tw_has_internal", 1);
 		DataManager::SetValue("tw_has_data_media", 1);
 		backup_exclusions.add_absolute_dir("/data/data/com.google.android.music/files");
-		backup_exclusions.add_absolute_dir("/data/cache");
-		// -- extra excludes, to address various causes of "error 255"
 		backup_exclusions.add_absolute_dir("/data/per_boot"); // DJ9,14Jan2020 - exclude this dir to prevent "error 255" on AOSP ROMs that create and lock it
-		backup_exclusions.add_absolute_dir("/data/extm"); // DJ9,5July2020 - exclude this dir to prevent "error 255" on MIUI 12 ROMs
+		backup_exclusions.add_absolute_dir("/data/vendor/dumpsys");
+		backup_exclusions.add_absolute_dir("/data/cache");
+        backup_exclusions.add_absolute_dir("/data/misc/apexdata/com.android.art"); // exclude this dir to prevent "error 255" on AOSP Android 12
+		backup_exclusions.add_absolute_dir("/data/extm"); //exclude this dir to prevent "error 255" on MIUI
+		backup_exclusions.add_absolute_dir("/data/gsi"); // Contains huge files (DSU System image + Userdata image), and won't work after restoration (requires configuration files in metadata)
 		backup_exclusions.add_absolute_dir("/data/bootchart"); // DJ9,3Aug2020 - exclude this dir to error 255
-		backup_exclusions.add_absolute_dir("/data/vendor/dumpsys"); // DJ9,3Aug2020 - exclude this dir to error 255
-		backup_exclusions.add_absolute_dir("/data/misc/apexdata/com.android.art"); // exclude this dir to prevent "error 255" on AOSP Android 12
 		backup_exclusions.add_absolute_dir("/data/fonts");
 		backup_exclusions.add_absolute_dir("/data/nandswap");
-
 		wipe_exclusions.add_absolute_dir(Mount_Point + "/misc/vold"); // adopted storage keys
 		ExcludeAll(Mount_Point + "/system/storage.xml");
 
@@ -2493,6 +2520,9 @@ bool TWPartition::Wipe_F2FS() {
 
 	if(needs_casefold)
 		f2fs_command += " -O casefold -C utf8";
+
+	if (Needs_Fs_Compress)
+		f2fs_command += " -O compression,extra_attr";
 
 	f2fs_command += " " + Actual_Block_Device + " " + dev_sz_str;
 
