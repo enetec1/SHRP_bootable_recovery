@@ -4,9 +4,8 @@
 		<page name="securityDashboard">
 			<template name="navCommon"/>
 			<template name="c_status_bar"/>
-			<text>
-				<font resource="extraLargeBoldPlus" color="%secondaryColor%"/>
-				<placement x="%c_hawk_base_column%" y="%rPos9%"/>
+			<text style="pageTitle">
+				<placement x="%c_hawk_base_column%" y="%rPos3%"/>
 				<text>{@c_security=Security}</text>
 			</text>
 			<checkbox>

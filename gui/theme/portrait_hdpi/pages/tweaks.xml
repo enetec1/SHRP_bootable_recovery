@@ -22,6 +22,9 @@
 			</listbox>
 
 			<button>
+				<condition var1="tw_has_boot_slots" var2="1"/>
+				<condition var1="tw_has_repack_tools" var2="1"/>
+				<condition var1="tw_uses_initramfs" var2="1"/>
 				<placement x="860" y="%rndPos105%"/>
 				<image resource="c_dashboard_addon"/>
 				<action function="page">c_addons_native</action>

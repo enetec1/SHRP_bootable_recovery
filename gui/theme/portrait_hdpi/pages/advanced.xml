@@ -6,7 +6,7 @@
 			<template name="c_status_bar"/>
 			<template name="dashBatt"/>
 			<image>
-				<placement x="560" y="120"/>
+                <placement x="560" y="%rPos8%"/>
 				<image resource="SKYHAWK"/>
 			</image>
 

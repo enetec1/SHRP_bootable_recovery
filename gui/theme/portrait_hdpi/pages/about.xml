@@ -133,9 +133,8 @@
 		<page name="shrpCredits">
 			<template name="navCommon"/>
 			<template name="c_status_bar"/>
-			<text>
-				<font resource="extraLargeBoldPlus" color="%secondaryColor%"/>
-				<placement x="%c_hawk_base_column%" y="%rPos9%"/>
+			<text style="pageTitle">
+				<placement x="%c_hawk_base_column%" y="%rPos3%"/>
 				<text>{@c_moreInfo=More Info}</text>
 			</text>
 
@@ -163,7 +162,7 @@
 			<listbox style="scrolllist">
 				<placement x="%c_hawk_base_column%" y="%rPos45%" w="%file_selector_default_w%" h="750"/>
 				<icon selected="shrpCredits" unselected="shrpCredits"/>
-				<listitem name="TeamWin (synced @ 20 Aug 2023)">
+				<listitem name="TeamWin (synced @ 29 Aug 2023)">
 					<data variable="dummy"/>
 				</listitem>
 				<listitem name="SGCMarkus">
