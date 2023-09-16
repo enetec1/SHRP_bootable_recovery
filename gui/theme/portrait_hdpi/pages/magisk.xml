@@ -94,7 +94,7 @@ sh c_core_only_enabler;
 			</checkbox>
 			<text style="subOptionTitle">
 				<placement x="%c_hawk_base_column%" y="%rPos27%"/>
-				<text>{@currMagiskVersion=Current Magisk Version}</text>
+				<text>{@currMagiskVersion=Current Magisk Version}  (device)</text>
 			</text>
 			<text>
 				<condition var1="c_magisk_status" op="!=" var2="1"/>
@@ -112,11 +112,12 @@ sh c_core_only_enabler;
 
 			<text style="subOptionTitle">
 				<placement x="%c_hawk_base_column%" y="-15" yref="%rPos48%" yop="+"/>
-				<text>{@available=Available} {@c_magisk=Magisk} {@c_version=Version}</text>
+				<text>{@available=Available} {@c_magisk=Magisk} {@c_version=Version}  (SHRP)</text>
 			</text>
-			<text style="simpleText">
+			<text>
 				<placement x="%c_hawk_base_column%" y="-15" yref="%rPos53%" yop="+"/>
-				<text>v%c_magisk_stock_var%</text>
+  				<font resource="extraLargeBoldPlus" color="%secondaryColor%"/>
+				<text>%c_magisk_stock_var%</text>
 			</text>
 
 
@@ -130,7 +131,6 @@ sh c_core_only_enabler;
 				<placement x="%c_hawk_base_column%" y="%rPos67%" w="%file_selector_default_w%" h="600"/>
 				<icon selected="installSign" unselected="installSign"/>
 				<listitem name="{@c_module_core_only_mode=Core Only Mode}">
-					<condition var1="exclude_magisk_flash" var2="1"/>
 					<condition var1="c_magisk_status" op="!=" var2="1"/>
 					<condition var1="core" op="=" var2="1"/>
 					<icon resource="toggleOn"/>
@@ -159,7 +159,7 @@ sh c_core_only_enabler;
 
 
 				<listitem name="{@installMagisk=Install Magisk}">
-					<condition var1="exclude_magisk_flash" var2="1"/>
+					<condition var1="exclude_magisk_flash" var2="0"/>
 					<condition var1="shrpMagiskRoot" op="=" var2="1"/>
 					<condition var1="magisk_in_rec" op="=" var2="1"/>
 					<icon resource="installSign"/>
@@ -178,8 +178,9 @@ sh c_core_only_enabler;
 						<action function="page">magisk_action</action>
 					</actions>
 				</listitem>
+
 				<listitem name="{@installMagisk=Install Magisk}">
-					<condition var1="exclude_magisk_flash" var2="1"/>
+					<condition var1="exclude_magisk_flash" var2="0"/>
 					<condition var1="shrpMagiskRoot" op="=" var2="1"/>
 					<condition var1="magisk_in_rec" op="=" var2="0"/>
 					<icon resource="installSign"/>
@@ -199,9 +200,8 @@ sh c_core_only_enabler;
 					</actions>
 				</listitem>
 
-
 				<listitem name="{@updateMagisk=Update Magisk}">
-					<condition var1="exclude_magisk_flash" var2="1"/>
+					<condition var1="exclude_magisk_flash" var2="0"/>
 					<condition var1="shrpMagiskUpdate" op="=" var2="1"/>
 					<condition var1="magisk_in_rec" op="=" var2="1"/>
 					<icon resource="installSign"/>
@@ -220,8 +220,9 @@ sh c_core_only_enabler;
 						<action function="page">magisk_action</action>
 					</actions>
 				</listitem>
+
 				<listitem name="{@updateMagisk=Update Magisk}">
-					<condition var1="exclude_magisk_flash" var2="1"/>
+					<condition var1="exclude_magisk_flash" var2="0"/>
 					<condition var1="shrpMagiskUpdate" op="=" var2="1"/>
 					<condition var1="magisk_in_rec" op="=" var2="0"/>
 					<icon resource="installSign"/>
@@ -240,10 +241,9 @@ sh c_core_only_enabler;
 						<action function="page">magisk_action</action>
 					</actions>
 				</listitem>
-
 
 				<listitem name="{@c_unroot=Unroot}">
-					<condition var1="exclude_magisk_flash" var2="1"/>
+					<condition var1="exclude_magisk_flash" var2="0"/>
 					<condition var1="shrpMagiskUnroot" op="=" var2="1"/>
 					<condition var1="magisk_in_rec" op="=" var2="1"/>
 					<icon resource="uninstallSign"/>
@@ -262,8 +262,9 @@ sh c_core_only_enabler;
 						<action function="page">magisk_action</action>
 					</actions>
 				</listitem>
+
 				<listitem name="{@c_unroot=Unroot}">
-					<condition var1="exclude_magisk_flash" var2="1"/>
+					<condition var1="exclude_magisk_flash" var2="0"/>
 					<condition var1="shrpMagiskUnroot" op="=" var2="1"/>
 					<condition var1="magisk_in_rec" op="=" var2="0"/>
 					<icon resource="uninstallSign"/>
@@ -282,6 +283,7 @@ sh c_core_only_enabler;
 						<action function="page">magisk_action</action>
 					</actions>
 				</listitem>
+
 				<listitem name="{@magiskModules=Magisk modules}">
 					<icon resource="magiskModule"/>
 					<data variable="dummy"/>

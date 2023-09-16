@@ -265,7 +265,7 @@ static bool IsInCircle(int x, int y, int ox, int oy, int r)
 int GUIPatternPassword::InDot(int x, int y)
 {
 	for (size_t i = 0; i < mGridSize * mGridSize; ++i) {
-		if (IsInCircle(x, y, mDots[i].x + mDotRadius, mDots[i].y + mDotRadius, mDotRadius*3))
+		if (IsInCircle(x, y, mDots[i].x + mDotRadius, mDots[i].y + mDotRadius, mDotRadius*7))
 			return i;
 	}
 	return -1;

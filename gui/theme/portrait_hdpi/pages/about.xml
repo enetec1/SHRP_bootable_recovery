@@ -4,16 +4,20 @@
 		<page name="my_info">
 			<template name="navCommon"/>
 			<template name="c_status_bar"/>
+			<image>
+                <placement x="560" y="%rPos8%"/>
+				<image resource="SKYHAWK"/>
+			</image>
 			<text>
 				<font resource="extraLargeBoldPlus" color="%secondaryColor%"/>
-				<placement x="%c_hawk_base_column%" y="%rPos9%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos14%"/>
 				<text>{@c_shrp_about=S H R P}</text>
 			</text>
 
 			<checkbox>
 				<condition var1="shrpBuild" var2="1"/>
 				<condition var1="shrp_ver_status" op="=" var2="Stable"/>
-				<placement x="%c_hawk_base_column%" y="%rPos17%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos20%"/>
 				<image checked="officialBuild" unchecked="officialBuild"/>
 				<text>{@offcialBuild=Official build}</text>
 				<data variable="dummy"/>
@@ -22,7 +26,7 @@
 			<checkbox>
 				<condition var1="shrpBuild" var2="0"/>
 				<condition var1="shrp_ver_status" op="=" var2="Stable"/>
-				<placement x="%c_hawk_base_column%" y="%rPos17%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos20%"/>
 				<image checked="unofficialBuild" unchecked="unofficialBuild"/>
 				<text>{@unoffcialBuild=Unofficial build}</text>
 				<data variable="dummy"/>
@@ -30,7 +34,7 @@
 
 			<checkbox>
 				<condition var1="shrp_ver_status" op="=" var2="Beta"/>
-				<placement x="%c_hawk_base_column%" y="%rPos17%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos20%"/>
 				<image checked="unofficialBuild" unchecked="unofficialBuild"/>
 				<text>Beta Release</text>
 				<data variable="dummy"/>
@@ -38,7 +42,7 @@
 
 			<checkbox>
 				<condition var1="shrp_ver_status" op="=" var2="Canary"/>
-				<placement x="%c_hawk_base_column%" y="%rPos17%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos20%"/>
 				<image checked="betaBuild" unchecked="betaBuild"/>
 				<text>Canary Release</text>
 				<data variable="dummy"/>
@@ -46,18 +50,18 @@
 
 			<checkbox>
 				<condition var1="shrp_ver_status" op="=" var2="Untested"/>
-				<placement x="%c_hawk_base_column%" y="%rPos17%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos20%"/>
 				<image checked="betaBuild" unchecked="betaBuild"/>
 				<text>Untested Release</text>
 				<data variable="dummy"/>
 			</checkbox>
 
 			<text style="subOptionTitle">
-				<placement x="%c_hawk_base_column%" y="%rPos27%"/>
-				<text>%shrp_ver_status%</text>
+				<placement x="%c_hawk_base_column%" y="%rPos29%"/>
+				<text>SHRP main</text>
 			</text>
 			<text>
-				<placement x="%c_hawk_base_column%" y="10" yref="%rPos29%" yop="+"/>
+				<placement x="%c_hawk_base_column%" y="10" yref="%rPos31%" yop="+"/>
 				<font resource="superExtraLargeBold" color="%secondaryColor%"/>
 				<text>%shrp_ver%</text>
 			</text>
@@ -79,19 +83,19 @@
 			<listbox style="scrolllist">
 				<placement x="%c_hawk_base_column%" y="%rPos67%" w="%file_selector_default_w%" h="600"/>
 				<icon selected="deviceIco" unselected="deviceIco"/>
-				<listitem name="%device_code_name%">
+				<listitem name="Moto  eqs  SHRP  %device_code_name%">
 					<icon resource="deviceIco"/>
 					<data variable="dummy"/>
 				</listitem>
-				<listitem name="%device_maintainer_name%">
+				<listitem name="by  %device_maintainer_name%">
 					<icon resource="c_usersRadioOn"/>
 					<data variable="dummy"/>
 				</listitem>
-				<listitem name="Made in Italy">
+				<listitem name="Made  in  Italy">
 					<icon resource="globeIco"/>
 					<data variable="dummy"/>
 				</listitem>
-				<listitem name="{@c_moreInfo=More Info}">
+				<listitem name="{@c_moreInfo=More Info}...">
 					<icon resource="shrpCredits"/>
 					<data variable="dummy"/>
 					<action function="page">shrpCredits</action>
@@ -162,7 +166,7 @@
 			<listbox style="scrolllist">
 				<placement x="%c_hawk_base_column%" y="%rPos45%" w="%file_selector_default_w%" h="750"/>
 				<icon selected="shrpCredits" unselected="shrpCredits"/>
-				<listitem name="TeamWin (synced @ 29 Aug 2023)">
+				<listitem name="TeamWin  (synced @ 13 Sep 2023)">
 					<data variable="dummy"/>
 				</listitem>
 				<listitem name="SGCMarkus">
@@ -172,6 +176,9 @@
 					<data variable="dummy"/>
 				</listitem>
 				<listitem name="nakamotoshigetoki">
+					<data variable="dummy"/>
+				</listitem>
+				<listitem name="ziandzivan (R.I.P.)">
 					<data variable="dummy"/>
 				</listitem>
 				<listitem name="epicX">

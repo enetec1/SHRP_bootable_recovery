@@ -168,8 +168,10 @@
 			<textbox>
 				<placement x="%c_hawk_base_column%" y="%rPos12%" w="%c_console_width%" h="400"/>
 				<text>{@multiuser_warning1=Not all users decrypted!}</text>
-				<text>{@multiuser_warning2=Backup/restore operations may fail!}</text>
-				<text>{@multiuser_warning_accept=Continue Anyway}</text>
+				<text> </text>
+				<text>Users data {@multiuser_warning2=Backup/restore operations may fail!}</text>
+				<text> </text>
+				<text>{@multiuser_warning_accept=Continue Anyway}?</text>
 			</textbox>
 
 
@@ -186,7 +188,13 @@
 				<action function="page">decrypt_users</action>
 			</button>
 
-
+			<button>
+				<placement x="860" y="%rndPos93%"/>
+				<image resource="c_cancel"/>
+				<actions>
+					<action function="page">c_refresh</action>
+				</actions>
+			</button>
 
 			<button>
 				<placement x="860" y="%rndPos105%"/>

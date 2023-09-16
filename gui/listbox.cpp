@@ -17,6 +17,7 @@
 */
 
 #include <string.h>
+#include <regex>
 
 extern "C" {
 #include "../twcommon.h"
@@ -191,9 +192,11 @@ GUIListBox::GUIListBox(xml_node<>* node) : GUIScrollList(node)
 #ifdef SHRP_EXTERNAL_ADDON_1_NAME
 				addonInfo aItem;
 				aItem.name=EXPAND(SHRP_EXTERNAL_ADDON_1_NAME);
+				aItem.name=std::regex_replace(aItem.name, std::regex("_"), " ");
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_1_INFO
-				aItem.info=EXPAND(SHRP_EXTERNAL_ADDON_1_INFO);
+				string TempString=EXPAND(SHRP_EXTERNAL_ADDON_1_INFO);
+				aItem.info=TempString.substr(1, TempString.size() - 2);
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_1_BTN_TEXT
 				aItem.confirmBtnText=EXPAND(SHRP_EXTERNAL_ADDON_1_BTN_TEXT);
@@ -210,9 +213,11 @@ GUIListBox::GUIListBox(xml_node<>* node) : GUIScrollList(node)
 #ifdef SHRP_EXTERNAL_ADDON_2_NAME
 				addonInfo aItem;
 				aItem.name=EXPAND(SHRP_EXTERNAL_ADDON_2_NAME);
+				aItem.name=std::regex_replace(aItem.name, std::regex("_"), " ");
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_2_INFO
-				aItem.info=EXPAND(SHRP_EXTERNAL_ADDON_2_INFO);
+				string TempString=EXPAND(SHRP_EXTERNAL_ADDON_2_INFO);
+				aItem.info=TempString.substr(1, TempString.size() - 2);
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_2_BTN_TEXT
 				aItem.confirmBtnText=EXPAND(SHRP_EXTERNAL_ADDON_2_BTN_TEXT);
@@ -229,9 +234,11 @@ GUIListBox::GUIListBox(xml_node<>* node) : GUIScrollList(node)
 #ifdef SHRP_EXTERNAL_ADDON_3_NAME
 				addonInfo aItem;
 				aItem.name=EXPAND(SHRP_EXTERNAL_ADDON_3_NAME);
+				aItem.name=std::regex_replace(aItem.name, std::regex("_"), " ");
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_3_INFO
-				aItem.info=EXPAND(SHRP_EXTERNAL_ADDON_3_INFO);
+				string TempString=EXPAND(SHRP_EXTERNAL_ADDON_3_INFO);
+				aItem.info=TempString.substr(1, TempString.size() - 2);
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_3_BTN_TEXT
 				aItem.confirmBtnText=EXPAND(SHRP_EXTERNAL_ADDON_3_BTN_TEXT);
@@ -248,9 +255,11 @@ GUIListBox::GUIListBox(xml_node<>* node) : GUIScrollList(node)
 #ifdef SHRP_EXTERNAL_ADDON_4_NAME
 				addonInfo aItem;
 				aItem.name=EXPAND(SHRP_EXTERNAL_ADDON_4_NAME);
+				aItem.name=std::regex_replace(aItem.name, std::regex("_"), " ");
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_4_INFO
-				aItem.info=EXPAND(SHRP_EXTERNAL_ADDON_4_INFO);
+				string TempString=EXPAND(SHRP_EXTERNAL_ADDON_4_INFO);
+				aItem.info=TempString.substr(1, TempString.size() - 2);
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_4_BTN_TEXT
 				aItem.confirmBtnText=EXPAND(SHRP_EXTERNAL_ADDON_4_BTN_TEXT);
@@ -267,9 +276,11 @@ GUIListBox::GUIListBox(xml_node<>* node) : GUIScrollList(node)
 #ifdef SHRP_EXTERNAL_ADDON_5_NAME
 				addonInfo aItem;
 				aItem.name=EXPAND(SHRP_EXTERNAL_ADDON_5_NAME);
+				aItem.name=std::regex_replace(aItem.name, std::regex("_"), " ");
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_5_INFO
-				aItem.info=EXPAND(SHRP_EXTERNAL_ADDON_5_INFO);
+				string TempString=EXPAND(SHRP_EXTERNAL_ADDON_5_INFO);
+				aItem.info=TempString.substr(1, TempString.size() - 2);
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_5_BTN_TEXT
 				aItem.confirmBtnText=EXPAND(SHRP_EXTERNAL_ADDON_5_BTN_TEXT);
@@ -286,9 +297,11 @@ GUIListBox::GUIListBox(xml_node<>* node) : GUIScrollList(node)
 #ifdef SHRP_EXTERNAL_ADDON_6_NAME
 				addonInfo aItem;
 				aItem.name=EXPAND(SHRP_EXTERNAL_ADDON_6_NAME);
+				aItem.name=std::regex_replace(aItem.name, std::regex("_"), " ");
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_6_INFO
-				aItem.info=EXPAND(SHRP_EXTERNAL_ADDON_6_INFO);
+				string TempString=EXPAND(SHRP_EXTERNAL_ADDON_6_INFO);
+				aItem.info=TempString.substr(1, TempString.size() - 2);
 #endif
 #ifdef SHRP_EXTERNAL_ADDON_6_BTN_TEXT
 				aItem.confirmBtnText=EXPAND(SHRP_EXTERNAL_ADDON_6_BTN_TEXT);

@@ -58,7 +58,7 @@
 				<condition var1="tw_mtp_enabled" var2="0"/>
 				<placement x="417" y="1327" h="240" w="240"/>
 				<fill color="%subBackgroundColor%"/>
-				<font resource="extraLargeBold" color="%secondaryColor%"/>
+				<font resource="extraLargeBold" color="#3f3f3f"/>
 				<text>MTP</text>
 				<action function="startmtp"/>
 			</button>
@@ -68,7 +68,7 @@
 				<condition var1="tw_mtp_enabled" var2="1"/>
 				<placement x="417" y="1327" h="240" w="240"/>
 				<fill color="%subBackgroundColor%"/>
-				<font resource="extraLargeBold" color="%accentColor%"/>
+				<font resource="extraLargeBold" color="#88ff00"/>
 				<text>MTP</text>
 				<action function="stopmtp"/>
 			</button>

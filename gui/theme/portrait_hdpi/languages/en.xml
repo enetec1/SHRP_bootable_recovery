@@ -337,7 +337,7 @@
 		<string name="utcm2">(UTC -2) Mid-Atlantic</string>
 		<string name="utcm1">(UTC -1) Azores, Cape Verde</string>
 		<string name="utc0">(UTC  0) London, Dublin, Lisbon</string>
-		<string name="utcp1">(UTC +1) Berlin, Brussels, Paris</string>
+		<string name="utcp1">(UTC +1) Rome, Berlin, Brussels, Paris</string>
 		<string name="utcp2">(UTC +2) Athens, Istanbul, South Africa</string>
 		<string name="utcp3">(UTC +3) Moscow, Baghdad</string>
 		<string name="utcp4">(UTC +4) Abu Dhabi, Tbilisi, Muscat</string>

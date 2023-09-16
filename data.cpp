@@ -742,7 +742,7 @@ initSHRPVars(&mConst, &mData, &mPersist);
 	mPersist.SetValue("tw_backup_list", "/system;/data;");
 #else
 #ifdef PRODUCT_USE_DYNAMIC_PARTITIONS
-	mPersist.SetValue("tw_backup_list", "/data;");
+	mPersist.SetValue("tw_backup_list", "/boot;");
 #else
 	mPersist.SetValue("tw_backup_list", "/system;/data;/boot;");
 #endif
@@ -755,7 +755,7 @@ initSHRPVars(&mConst, &mData, &mPersist);
 	mPersist.SetValue(TW_DISABLE_FREE_SPACE_VAR, "0");
 	mPersist.SetValue(TW_FORCE_DIGEST_CHECK_VAR, "0");
 	mPersist.SetValue(TW_USE_COMPRESSION_VAR, "0");
-	mPersist.SetValue(TW_TIME_ZONE_VAR, "CST6CDT,M3.2.0,M11.1.0");
+	mPersist.SetValue(TW_TIME_ZONE_VAR, "CET-1;CEST,M3.5.0,M10.5.0");
 	mPersist.SetValue(TW_GUI_SORT_ORDER, "1");
 	mPersist.SetValue(TW_RM_RF_VAR, "0");
 	mPersist.SetValue(TW_SKIP_DIGEST_CHECK_VAR, "0");
@@ -764,7 +764,7 @@ initSHRPVars(&mConst, &mData, &mPersist);
 	mPersist.SetValue(TW_SDEXT_SIZE, "0");
 	mPersist.SetValue(TW_SWAP_SIZE, "0");
 	mPersist.SetValue(TW_SDPART_FILE_SYSTEM, "ext3");
-	mPersist.SetValue(TW_TIME_ZONE_GUISEL, "CST6;CDT,M3.2.0,M11.1.0");
+	mPersist.SetValue(TW_TIME_ZONE_GUISEL, "CET-1;CEST,M3.5.0,M10.5.0");
 	mPersist.SetValue(TW_TIME_ZONE_GUIOFFSET, "0");
 	mPersist.SetValue(TW_TIME_ZONE_GUIDST, "1");
 	mPersist.SetValue(TW_AUTO_REFLASHTWRP_VAR, "0");
@@ -796,7 +796,7 @@ initSHRPVars(&mConst, &mData, &mPersist);
 	mData.SetValue("tw_terminal_state", "0");
 	mData.SetValue("tw_background_thread_running", "0");
 	mData.SetValue(TW_RESTORE_FILE_DATE, "0");
-	mPersist.SetValue("tw_military_time", "0");
+	mPersist.SetValue("tw_military_time", "1");
 
 #ifdef TW_INCLUDE_CRYPTO
 	mPersist.SetValue(TW_USE_SHA2, "1");
@@ -1180,7 +1180,7 @@ void DataManager::ReadSettingsFile(void)
 	memset(mkdir_path, 0, sizeof(mkdir_path));
 	memset(settings_file, 0, sizeof(settings_file));
 	sprintf(mkdir_path, "%s%s", GetSettingsStoragePath().c_str(), GetStrValue(TW_RECOVERY_NAME).c_str());
-	sprintf(settings_file, "%s/%s", mkdir_path, TW_SETTINGS_FILE);
+	sprintf(settings_file, "%s%s", mkdir_path, TW_SETTINGS_FILE);
 
 	if (!PartitionManager.Mount_Settings_Storage(false))
 	{

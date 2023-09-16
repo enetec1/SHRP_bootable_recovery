@@ -41,8 +41,11 @@ void SHRP::printRecDetails(){
 		tmp="|Status - Unofficial";
 	}
 	gui_msg(Msg(tmp.c_str(),0));
+	DataManager::GetValue("tw_version",tmp);
+	tmp="|Engine - "+tmp;
+	gui_msg(Msg(tmp.c_str(),0));
 	DataManager::GetValue("device_code_name",tmp);
-	tmp="|Device - "+tmp;
+	tmp="|Device version - eqs "+tmp;
 	gui_msg(Msg(tmp.c_str(),0));
 /*
 #ifdef SHRP_BUILD_DATE

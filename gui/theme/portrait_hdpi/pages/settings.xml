@@ -105,8 +105,8 @@
 			</button>
 			<button>
 				<placement x="324" y="1610"/>
-				<image resource="timeSettingsDisabled"/>
-				<action function="page">timeSettings</action>
+				<image resource="shrpSettingsDisabled"/>
+				<action function="page">shrpSettings</action>
 			</button>
 			<button>
 				<placement x="576" y="1610"/>
@@ -116,8 +116,8 @@
 
 			<button>
 				<placement x="828" y="1610"/>
-				<image resource="shrpSettingsDisabled"/>
-				<action function="page">shrpSettings</action>
+				<image resource="timeSettingsDisabled"/>
+				<action function="page">timeSettings</action>
 			</button>
 
 			<action>
@@ -142,10 +142,9 @@
 			<template name="navCommon"/>
 			<template name="c_status_bar"/>
 
-			<text>
+			<text style="pageTitle">
 				<placement x="%c_hawk_base_column%" y="%rPos3%"/>
-				<font resource="extraLargeBoldProPlus" color="%primaryColor%"/>
-				<text>%tw_time%</text>
+				<text>{@settings_btn=Settings}  -  %tw_time%</text>
 			</text>
 
 			<checkbox>
@@ -176,7 +175,7 @@
 				<listitem name="{@utcm2=(UTC -2) Mid-Atlantic}">FALKST2;FALKDT</listitem>
 				<listitem name="{@utcm1=(UTC -1) Azores, Cape Verde}">AZOREST1;AZOREDT</listitem>
 				<listitem name="{@utc0=(UTC  0) London, Dublin, Lisbon}">GMT0;BST,M3.5.0,M10.5.0</listitem>
-				<listitem name="{@utcp1=(UTC +1) Berlin, Brussels, Paris}">CET-1;CEST,M3.5.0,M10.5.0</listitem>
+				<listitem name="{@utcp1=(UTC +1) Rome, Berlin, Brussels, Paris}">CET-1;CEST,M3.5.0,M10.5.0</listitem>
 				<listitem name="{@utcp2=(UTC +2) Athens, Istanbul, South Africa}">WET-2;WET,M3.5.0,M10.5.0</listitem>
 				<listitem name="{@utcp3=(UTC +3) Moscow, Baghdad}">SAUST-3;SAUDT</listitem>
 				<listitem name="{@utcp4=(UTC +4) Abu Dhabi, Tbilisi, Muscat}">WST-4;WDT</listitem>
@@ -212,8 +211,8 @@
 			</button>
 			<button>
 				<placement x="324" y="1610"/>
-				<image resource="timeSettings"/>
-				<action function="page">timeSettings</action>
+				<image resource="shrpSettingsDisabled"/>
+				<action function="page">shrpSettings</action>
 			</button>
 			<button>
 				<placement x="576" y="1610"/>
@@ -223,8 +222,8 @@
 
 			<button>
 				<placement x="828" y="1610"/>
-				<image resource="shrpSettingsDisabled"/>
-				<action function="page">shrpSettings</action>
+				<image resource="timeSettings"/>
+				<action function="page">timeSettings</action>
 			</button>
 
 
@@ -249,13 +248,18 @@
 
 			<text style="pageTitle">
 				<placement x="%c_hawk_base_column%" y="%rPos3%"/>
-				<text>{@c_device=Device}</text>
+				<text>{@settings_btn=Settings}</text>
 			</text>
 
+			<text style="pageSubTitle">
+				<placement x="%c_hawk_base_column%" y="%rPos12%"/>
+				<text>{@c_device=Device} {@settings_btn=Settings}</text>
+			</text>
+			
 			<button>
 				<condition var1="tw_screen_timeout_secs" op="=" var2="0"/>
 				<condition var1="tw_no_screen_timeout" op="!=" var2="1"/>
-				<placement x="%c_hawk_base_column%" y="0" yop="+" yref="%rPos12%" textplacement="6"/>
+				<placement x="%c_hawk_base_column%" y="0" yop="+" yref="%rPos18%" textplacement="6"/>
 				<font resource="small" color="%secondaryColor%"/>
 				<text>{@enable_timeout_chk=Enable screen timeout}</text>
 				<image resource="checkbox_false"/>
@@ -264,7 +268,7 @@
 			<button>
 				<condition var1="tw_screen_timeout_secs" op="!=" var2="0"/>
 				<condition var1="tw_no_screen_timeout" op="!=" var2="1"/>
-				<placement x="%c_hawk_base_column%" y="0" yop="+" yref="%rPos12%" textplacement="6"/>
+				<placement x="%c_hawk_base_column%" y="0" yop="+" yref="%rPos18%" textplacement="6"/>
 				<font resource="small" color="%secondaryColor%"/>
 				<text>{@enable_timeout_chk=Enable screen timeout}</text>
 				<image resource="checkbox_true"/>
@@ -274,14 +278,14 @@
 
 
 			<text style="subOptionTitle2">
-				<placement x="%c_hawk_base_column%" y="%rPos22%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos27%"/>
 				<text>{@screen_to_slider_s=Screen timeout in seconds (0=disabled): %tw_screen_timeout_secs%}</text>
 			</text>
 
 			<slidervalue>
 				<condition var1="tw_screen_timeout_secs" op="!=" var2="0"/>
 				<condition var1="tw_no_screen_timeout" op="!=" var2="1"/>
-				<placement x="%c_hawk_base_column%" y="%rPos28%" w="%file_selector_default_w%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos34%" w="%file_selector_default_w%"/>
 				<text></text>
 				<data variable="tw_screen_timeout_secs" min="15" max="300"/>
 			</slidervalue>
@@ -289,12 +293,12 @@
 
 
 			<text style="subOptionTitle2">
-				<placement x="%c_hawk_base_column%" y="%rPos38%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos45%"/>
 				<text>{@screen_bright_slider=Brightness: %tw_brightness_pct%}</text>
 			</text>
 			<slidervalue>
 				<condition var1="tw_has_brightnesss_file" var2="1"/>
-				<placement x="%c_hawk_base_column%" y="%rPos43%" w="%file_selector_default_w%"/>
+				<placement x="%c_hawk_base_column%" y="%rPos52%" w="%file_selector_default_w%"/>
 				<text></text>
 				<data variable="tw_brightness_pct" min="10" max="100"/>
 				<actions>
@@ -307,31 +311,37 @@
 
 			<!--Vibration-->
 			<text style="subOptionTitle2">
-				<placement x="%c_hawk_base_column%" y="%rPos53%"/>
+				<condition var1="tw_disable_haptics" var2="0"/>
+				<placement x="%c_hawk_base_column%" y="%rPos63"/>
 				<text>{@button_vibration=Button Vibration:} %tw_button_vibrate%</text>
 			</text>
 			<slidervalue>
-				<placement x="%c_hawk_base_column%" y="%rPos58%" w="%file_selector_default_w%"/>
+				<condition var1="tw_disable_haptics" var2="0"/>
+				<placement x="%c_hawk_base_column%" y="%rPos70%" w="%file_selector_default_w%"/>
 				<text></text>
 				<data variable="tw_button_vibrate" min="0" max="300"/>
 			</slidervalue>
 
 			<text style="subOptionTitle2">
-				<placement x="%c_hawk_base_column%" y="%rPos68%"/>
+				<condition var1="tw_disable_haptics" var2="0"/>
+				<placement x="%c_hawk_base_column%" y="%rPos81%"/>
 				<text>{@kb_vibration=Keyboard Vibration:} %tw_keyboard_vibrate%</text>
 			</text>
 			<slidervalue>
-				<placement x="%c_hawk_base_column%" y="%rPos73%" w="%file_selector_default_w%"/>
+				<condition var1="tw_disable_haptics" var2="0"/>
+				<placement x="%c_hawk_base_column%" y="%rPos88%" w="%file_selector_default_w%"/>
 				<text></text>
 				<data variable="tw_keyboard_vibrate" min="0" max="300"/>
 			</slidervalue>
 
 			<text style="subOptionTitle2">
-				<placement x="%c_hawk_base_column%" y="%rPos83%"/>
+				<condition var1="tw_disable_haptics" var2="0"/>
+				<placement x="%c_hawk_base_column%" y="%rPos99%"/>
 				<text>{@act_vibration=Action Vibration:} %tw_action_vibrate%</text>
 			</text>
 			<slidervalue>
-				<placement x="%c_hawk_base_column%" y="%rPos88%" w="%file_selector_default_w%"/>
+				<condition var1="tw_disable_haptics" var2="0"/>
+				<placement x="%c_hawk_base_column%" y="%rPos106%" w="%file_selector_default_w%"/>
 				<text></text>
 				<data variable="tw_action_vibrate" min="0" max="500"/>
 			</slidervalue>
@@ -345,8 +355,8 @@
 			</button>
 			<button>
 				<placement x="324" y="1610"/>
-				<image resource="timeSettingsDisabled"/>
-				<action function="page">timeSettings</action>
+				<image resource="shrpSettingsDisabled"/>
+				<action function="page">shrpSettings</action>
 			</button>
 			<button>
 				<placement x="576" y="1610"/>
@@ -356,8 +366,8 @@
 
 			<button>
 				<placement x="828" y="1610"/>
-				<image resource="shrpSettingsDisabled"/>
-				<action function="page">shrpSettings</action>
+				<image resource="timeSettingsDisabled"/>
+				<action function="page">timeSettings</action>
 			</button>
 
 
@@ -383,12 +393,12 @@
 
 			<text style="pageTitle">
 				<placement x="%c_hawk_base_column%" y="%rPos3%"/>
-				<text>S H R P</text>
+				<text>{@settings_btn=Settings}</text>
 			</text>
-
+			
 			<text style="pageSubTitle">
 				<placement x="%c_hawk_base_column%" y="%rPos12%"/>
-				<text>S H R P  {@settings_btn=Settings}</text>
+				<text>SHRP {@settings_btn=Settings}</text>
 			</text>
 
 			<listbox style="scrolllist">
@@ -422,8 +432,8 @@
 			</button>
 			<button>
 				<placement x="324" y="1610"/>
-				<image resource="timeSettingsDisabled"/>
-				<action function="page">timeSettings</action>
+				<image resource="shrpSettings"/>
+				<action function="page">shrpSettings</action>
 			</button>
 			<button>
 				<placement x="576" y="1610"/>
@@ -433,8 +443,8 @@
 
 			<button>
 				<placement x="828" y="1610"/>
-				<image resource="shrpSettings"/>
-				<action function="page">shrpSettings</action>
+				<image resource="timeSettingsDisabled"/>
+				<action function="page">timeSettings</action>
 			</button>
 
 

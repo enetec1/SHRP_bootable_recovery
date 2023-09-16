@@ -346,8 +346,8 @@ clear:
 	TWPartition* odm = PartitionManager.Find_Partition_By_Path("/odm");
 	if (!parse_userdata) {
 
-		if (ven) ven->Mount(true);
-		if (odm) odm->Mount(true);
+		if (ven) ven->Mount(Display_Error);
+		if (odm) odm->Mount(Display_Error);
 		if (TWFunc::Find_Fstab(Fstab_Filename)) {
 			string service;
 			LOGINFO("Fstab: %s\n", Fstab_Filename.c_str());
@@ -355,7 +355,7 @@ clear:
 			Fstab_Filename = additional_fstab;
 			property_set("fstab.additional", "1");
 			TWFunc::Get_Service_From(ven, "keymaster", service);
-			LOGINFO("Keymaster version: '%s' \n", TWFunc::Get_Version_From_Service(service).c_str());
+			LOGINFO("Keymaster version: '%s'\n", TWFunc::Get_Version_From_Service(service).c_str());
 			property_set("keymaster_ver", TWFunc::Get_Version_From_Service(service).c_str());
 			parse_userdata = true;
 			Reset_Prop_From_Partition("ro.crypto.dm_default_key.options_format.version", "", ven, odm);
@@ -369,13 +369,10 @@ clear:
 			LOGINFO("Unable to parse vendor fstab\n");
 		}
 	}
-	if (ven) ven->UnMount(true);
-	if (odm) odm->UnMount(true);
+	if (ven) ven->UnMount(Display_Error);
+	if (odm) odm->UnMount(Display_Error);
 	LOGINFO("Done processing fstab files\n");
 
-	if (recovery_mode) {
-		Setup_Fstab_Partitions(Display_Error);
-	}
 	return true;
 }
 
@@ -411,9 +408,9 @@ void TWPartitionManager::Setup_Fstab_Partitions(bool Display_Error) {
 		TWPartition* ven = PartitionManager.Find_Partition_By_Path("/vendor");
 		if (sys) {
 			if (sys->Get_Super_Status()) {
-				sys->Mount(true);
+				sys->Mount(Display_Error);
 				if (ven) {
-					ven->Mount(true);
+					ven->Mount(Display_Error);
 				}
 	#ifdef TW_EXCLUDE_APEX
 				LOGINFO("Apex is disabled in this build\n");
@@ -431,9 +428,9 @@ void TWPartitionManager::Setup_Fstab_Partitions(bool Display_Error) {
 		}
 	#ifndef USE_VENDOR_LIBS
 		if (ven)
-			ven->UnMount(true);
+			ven->UnMount(Display_Error);
 		if (sys)
-			sys->UnMount(true);
+			sys->UnMount(Display_Error);
 	#endif
 
 		if (!datamedia && !settings_partition && Find_Partition_By_Path("/sdcard") == NULL && Find_Partition_By_Path("/internal_sd") == NULL && Find_Partition_By_Path("/internal_sdcard") == NULL && Find_Partition_By_Path("/emmc") == NULL) {
@@ -566,7 +563,7 @@ void TWPartitionManager::Decrypt_Data() {
 				}
 			}
 		} else {
-			LOGINFO("FBE setup failed. Trying FDE...");
+			LOGINFO("FBE setup failed. Trying FDE...\n");
 			Set_Crypto_State();
 			Set_Crypto_Type("block");
 			int password_type = cryptfs_get_password_type();
@@ -1167,12 +1164,12 @@ int TWPartitionManager::Run_Backup(bool adbbackup) {
 		part_settings.file_time = 1;
 	int img_bps = (int)part_settings.img_bytes / (int)part_settings.img_time;
 	unsigned long long file_bps = part_settings.file_bytes / (int)part_settings.file_time;
-
+/*
 	if (part_settings.file_bytes != 0)
 		gui_msg(Msg("avg_backup_fs=Average backup rate for file systems: {1} MB/sec")(file_bps / (1024 * 1024)));
 	if (part_settings.img_bytes != 0)
 		gui_msg(Msg("avg_backup_img=Average backup rate for imaged drives: {1} MB/sec")(img_bps / (1024 * 1024)));
-
+*/
 	time(&total_stop);
 	int total_time = (int) difftime(total_stop, total_start);
 

@@ -391,7 +391,7 @@ int GUIAction::NotifyVarChange(const std::string& varName, const std::string& va
 void GUIAction::simulate_progress_bar(void)
 {
 	gui_msg("simulating=Simulating actions...");
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i <= 5; i++)
 	{
 		if (PartitionManager.stop_backup.get_value()) {
 			DataManager::SetValue("tw_cancel_backup", 1);
@@ -400,7 +400,7 @@ void GUIAction::simulate_progress_bar(void)
 			PartitionManager.stop_backup.set_value(0);
 			return;
 		}
-		usleep(500000);
+		usleep(300000);
 		DataManager::SetValue("ui_progress", i * 20);
 	}
 }
@@ -1573,6 +1573,7 @@ int GUIAction::decrypt(std::string arg __unused)
 	operation_start("Decrypt");
 	if (simdecry) {
 		simulate_progress_bar();
+		PartitionManager.Update_System_Details();
 	} else {
 		string Password;
 		string userID;

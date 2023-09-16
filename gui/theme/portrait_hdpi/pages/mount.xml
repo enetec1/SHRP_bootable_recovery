@@ -23,6 +23,7 @@
 			</partitionlist>
 
 			<text style="subOptionTitle">
+				<condition var1="tw_is_super" op="=" var2="0"/>
 				<placement x="%c_hawk_base_column%" y="%rPos77%"/>
 				<text>{@options=Options:}</text>
 			</text>
@@ -51,7 +52,14 @@
 			</button>
 
 			<button>
-			  <placement x="860" y="%rndPos69%"/>
+				<condition var1="tw_has_usb_storage" var2="10"/>
+				<placement x="860" y="%rndPos69%"/>
+				<image resource="c_usb_disabled"/>
+				<action function="page">usb_mount</action>
+			</button>
+
+			<button>
+			  <placement x="860" y="%rndPos81%"/>
 			  <condition var1="tw_is_encrypted" var2="1"/>
 			  <condition var1="tw_is_decrypted" var2="0"/>
 			  <image resource="c_backup_encryption"/>
@@ -63,14 +71,6 @@
 				<action function="page">decrypt</action>
 			  </actions>
 			</button>
-
-			<button>
-				<condition var1="tw_has_usb_storage" var2="1"/>
-				<placement x="860" y="%rndPos81%"/>
-				<image resource="c_usb_disabled"/>
-				<action function="page">usb_mount</action>
-			</button>
-
 
 			<button>
 				<condition var1="tw_has_mtp" var2="1"/>

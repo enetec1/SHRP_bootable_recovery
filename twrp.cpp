@@ -281,7 +281,7 @@ static void process_recovery_mode(twrpAdbBuFifo* adb_bu_fifo, bool skip_decrypti
 		PartitionManager.Disable_MTP();
 	    }
 	}else{
-	    LOGINFO("SHRP is locked; MTP is not allowing to start.\n");
+	    LOGINFO("SHRP is locked; MTP is not allowed to start.\n");
 	}
 #endif
 
@@ -401,9 +401,6 @@ int main(int argc, char **argv) {
 
 	// Load default values to set DataManager constants and handle ifdefs
 	DataManager::SetDefaultValues();
-	printf("Starting the UI...\n");
-	gui_init();
-	
 	startupArgs startup;
 	startup.parse(&argc, &argv);
 	printf("=> Linking mtab\n");
@@ -429,6 +426,11 @@ int main(int argc, char **argv) {
 	}
 	KernelModuleLoader::Load_Vendor_Modules();
 #endif
+
+	printf("Starting the UI...\n");
+	gui_init();
+
+	if (!startup.Get_Fastboot_Mode()) PartitionManager.Setup_Fstab_Partitions(true);
 
 	// Load up all the resources
 	gui_loadResources();
